@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <title>localFile</title>
+</head>
+<body>
+    
+    <h1 class="localFile-header">localFile</h1>
+
+    <div class="ip-box">
+        <span class="ip-address">123.456.7.8:2000</span>
+    </div>
+
+    <div class="main-box">
+        <div class="tab-selector">
+            <button class="tab-btn active" data-tab="upload">Upload</button>
+            <button class="tab-btn" data-tab="download">Download</button>
+        </div>
+        <div class="tab-content">
+            <div class="tab-panel active" id="upload-panel">
+                <div class="upload-box">
+                    <p>Drop files here or click to upload</p>
+                </div>
+            </div>
+            <div class="tab-panel" id="download-panel">
+                <div class="file-item">
+                    <span class="file-name">example-document.pdf</span>
+                    <button class="download-btn">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- the selector for upload vs download -->
+    <script>
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(`${tabName}-panel`).classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
