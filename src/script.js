@@ -132,10 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.innerHTML = `
-                    <span class="file-name">${file.name}</span>
-                    <span class="file-size">${formatFileSize(file.size)}</span>
-                    <button class="download-btn" onclick="downloadFile('${file.name}')">Download</button>
-                    <button class="delete-btn" onclick="deleteFile('${file.name}')" style="margin-left: 5px; background: #ff4444;">Delete</button>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="download-btn" onclick="downloadFile('${file.name}')">Download</button>
+                        <button class="delete-btn" onclick="deleteFile('${file.name}')">Delete</button>
+                    </div>
                 `;
                 downloadPanel.appendChild(fileItem);
             });
