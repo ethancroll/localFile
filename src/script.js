@@ -174,4 +174,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize download list on page load
     updateDownloadList();
+
+    // Load and display the actual IP address
+    loadIPAddress();
+
+    function loadIPAddress() {
+        fetch('/api/ip')
+        .then(response => response.json())
+        .then(data => {
+            const ipElement = document.querySelector('.ip-address');
+            if (ipElement) {
+                ipElement.textContent = data.address;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading IP address:', error);
+        });
+    }
 });
