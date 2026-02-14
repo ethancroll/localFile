@@ -12,6 +12,7 @@
 - npm i
 - npm start
 - access at port 8080
+- make a uploads folder in the src directory (src/uploads/), otherwise an error will ocurr
 
 ### note
 
