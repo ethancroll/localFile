@@ -11,6 +11,7 @@
 
 - npm i
 - npm start
+- access at port 8080
 
 ### note
 
