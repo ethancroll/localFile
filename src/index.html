@@ -7,7 +7,7 @@
     <!-- font import -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 
@@ -18,7 +18,7 @@
     <h1 class="localFile-header">localFile</h1>
 
     <div class="ip-box">
-        <span class="ip-address">123.456.7.8:2000</span>
+        <span class="ip-address">loading...</span>
     </div>
 
     <div class="main-box">
@@ -29,17 +29,18 @@
         <div class="tab-content">
             <div class="tab-panel active" id="upload-panel">
                 <div class="upload-box">
+                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     <p>Drop files here or click to upload</p>
+                    <p class="upload-hint">Any file type supported</p>
                 </div>
             </div>
             <div class="tab-panel" id="download-panel">
-                <div class="file-item">
-                    <span class="file-name">example-document.pdf</span>
-                    <button class="download-btn">Download</button>
-                </div>
+                <div class="empty-state">No files uploaded yet</div>
             </div>
         </div>
     </div>
+
+    <footer class="app-footer">local network file sharing</footer>
 
     <script src="script.js"></script>
 </body>
