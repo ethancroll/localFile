@@ -1,8 +1,7 @@
-// Simple file upload and download functionality for local network
-// Keep it super simple - no HTTPS, just basic functionality
+// simple usage for local network. not safe for over the internet.
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab switching functionality (moved from HTML)
+    // switching tabs
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanels = document.querySelectorAll('.tab-panel');
 
@@ -18,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // File upload functionality
+    // file upload handling
     const uploadBox = document.querySelector('.upload-box');
     
     if (uploadBox) {
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadBox.addEventListener('dragleave', handleDragLeave);
         uploadBox.addEventListener('drop', handleDrop);
         
-        // Handle click to upload
+        // click for upload
         uploadBox.addEventListener('click', handleClick);
     }
 
@@ -70,13 +69,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleFiles(files) {
         if (files.length === 0) return;
         
-        // Upload files to server
+        // uploading to server
         const formData = new FormData();
         files.forEach(file => {
             formData.append('files', file);
         });
         
-        // Show uploading status
+        // show uploading status
         const uploadBox = document.querySelector('.upload-box');
         const originalText = uploadBox.innerHTML;
         uploadBox.innerHTML = '<p>Uploading...</p>';
@@ -149,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Make functions global so buttons can access them
+    // global functions
     window.downloadFile = function(filename) {
         window.open(`/download/${filename}`, '_blank');
     };
@@ -172,10 +171,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Initialize download list on page load
+    // init download
     updateDownloadList();
-
-    // Load and display the actual IP address
     loadIPAddress();
 
     function loadIPAddress() {
