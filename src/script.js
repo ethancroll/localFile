@@ -132,10 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.innerHTML = `
-                    <span class="file-name">${file.name}</span>
-                    <span class="file-size">${formatFileSize(file.size)}</span>
-                    <button class="download-btn" onclick="downloadFile('${file.name}')">Download</button>
-                    <button class="delete-btn" onclick="deleteFile('${file.name}')" style="margin-left: 5px; background: #ff4444;">Delete</button>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="download-btn" onclick="downloadFile('${file.name}')">Download</button>
+                        <button class="delete-btn" onclick="deleteFile('${file.name}')">Delete</button>
+                    </div>
                 `;
                 downloadPanel.appendChild(fileItem);
             });
@@ -170,4 +174,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize download list on page load
     updateDownloadList();
+
+    // Load and display the actual IP address
+    loadIPAddress();
+
+    function loadIPAddress() {
+        fetch('/api/ip')
+        .then(response => response.json())
+        .then(data => {
+            const ipElement = document.querySelector('.ip-address');
+            if (ipElement) {
+                ipElement.textContent = data.address;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading IP address:', error);
+        });
+    }
 });

@@ -2,12 +2,65 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
+
+// Enable CORS and security headers for external access
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 // Serve static files from src directory
 app.use(express.static('src'));
+
+// Get local IP address
+function getLocalIPAddress() {
+  const interfaces = os.networkInterfaces();
+  let candidates = [];
+
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal && !iface.address.startsWith('169.254.')) {
+        candidates.push({ name, address: iface.address });
+      }
+    }
+  }
+
+  // Priority: Wi-Fi > plain "Ethernet" > anything else
+  const wifi = candidates.find(c => /^wi-fi$|^wifi$|^wlan/i.test(c.name));
+  if (wifi) return wifi.address;
+
+  const eth = candidates.find(c => /^ethernet$/i.test(c.name));
+  if (eth) return eth.address;
+
+  return candidates.length > 0 ? candidates[0].address : '127.0.0.1';
+}
+
+// IP address endpoint
+app.get('/api/ip', (req, res) => {
+  const localIP = getLocalIPAddress();
+  const clientIP = req.ip || req.connection.remoteAddress;
+  res.json({ 
+    ip: localIP,
+    port: PORT,
+    address: `${localIP}:${PORT}`,
+    clientIP: clientIP
+  });
+});
+
+// Test endpoint for external access
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'External access working!',
+    timestamp: new Date().toISOString(),
+    clientIP: req.ip || req.connection.remoteAddress
+  });
+});
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -86,7 +139,9 @@ app.delete('/delete/:filename', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
+  const localIP = getLocalIPAddress();
   console.log(`Server running at http://localhost:${PORT}`);
-  console.log(`Access from other devices: http://YOUR_LOCAL_IP:${PORT}`);
+  console.log(`Access from other devices: http://${localIP}:${PORT}`);
+  console.log(`Server bound to all interfaces (0.0.0.0:${PORT})`);
 });
