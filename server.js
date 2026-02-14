@@ -21,15 +21,24 @@ app.use(express.static('src'));
 // Get local IP address
 function getLocalIPAddress() {
   const interfaces = os.networkInterfaces();
+  let candidates = [];
+
   for (const name of Object.keys(interfaces)) {
     for (const iface of interfaces[name]) {
-      // Look for IPv4, non-internal interface
-      if (iface.family === 'IPv4' && !iface.internal) {
-        return iface.address;
+      if (iface.family === 'IPv4' && !iface.internal && !iface.address.startsWith('169.254.')) {
+        candidates.push({ name, address: iface.address });
       }
     }
   }
-  return '127.0.0.1';
+
+  // Priority: Wi-Fi > plain "Ethernet" > anything else
+  const wifi = candidates.find(c => /^wi-fi$|^wifi$|^wlan/i.test(c.name));
+  if (wifi) return wifi.address;
+
+  const eth = candidates.find(c => /^ethernet$/i.test(c.name));
+  if (eth) return eth.address;
+
+  return candidates.length > 0 ? candidates[0].address : '127.0.0.1';
 }
 
 // IP address endpoint
