@@ -87,10 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                uploadBox.innerHTML = '<p style="color: green;">✓ Upload successful!</p>';
+                uploadBox.innerHTML = '<p>Done</p>';
                 updateDownloadList();
             } else {
-                uploadBox.innerHTML = '<p style="color: red;">Upload failed</p>';
+                uploadBox.innerHTML = '<p>Upload failed</p>';
             }
             
             setTimeout(() => {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Upload error:', error);
-            uploadBox.innerHTML = '<p style="color: red;">Upload failed</p>';
+            uploadBox.innerHTML = '<p>Upload failed</p>';
             setTimeout(() => {
                 uploadBox.innerHTML = originalText;
             }, 2000);
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const downloadPanel = document.getElementById('download-panel');
             
             if (files.length === 0) {
-                downloadPanel.innerHTML = '<div class="file-item"><span class="file-name">No files uploaded yet</span></div>';
+                downloadPanel.innerHTML = '<div class="empty-state">No files uploaded yet</div>';
                 return;
             }
             
